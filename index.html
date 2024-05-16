@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Scroll</title>
-    <link rel="icon" type="image/png" href="https://www.google.com/s2/u/0/favicons?domain=gracefulglowco.com
+    <link rel="icon" type="image/png" href="https://www.google.com/s2/u/0/favicons?domain=unsplash.com
     ">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,6 +14,13 @@
     <!-- Loader -->
     <div class="loader" id="loader">
         <img src="assets/svg/loader-circles.svg" alt="Loading">
+    </div>
+    <!-- Search Bar -->
+    <div class="search-container">
+        <form action="" id="search-form">
+            <input type="text" id="search-input" placeholder="SEARCH...">
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
     </div>
     <!-- Image Container -->
     <div class="image-container" id="image-container"></div>

@@ -1,6 +1,7 @@
 
 const imageContainer = document.getElementById('image-container');
 const loader = document.getElementById('loader');
+const searchForm = document.getElementById('search-form');
 
 let ready = false;
 let imagesLoaded = 0;
@@ -12,12 +13,23 @@ let photosArray = [];
 let isInitialLoad = true;
 const initialImageLoadCount = 5;
 const imageLoadCount = 30;
+let searchTerm = '';
 // FUTURE: create a secure backend for these env variables and move these into a env/config file
 const apiKey = '0FXsibRdBB_UW6vlFdUEQrcYWqcT_DX7k0VXdDeHkSM';
-const unsplashApiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${initialImageLoadCount}`;
+let unsplashApiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${initialImageLoadCount}`;
 
-function updateUnsplashApiUrl() {
+function updateUnsplashApiUrlCount() {
     unsplashApiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${imageLoadCount}`;
+}
+
+function getPhotosBySearchTerm() {
+    // clear current photos
+    imageContainer.innerHTML = '';
+
+    // update unsplashApiUrl
+    unsplashApiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${initialImageLoadCount}&query=${searchTerm}`;
+    
+    getPhotos();
 }
 
 // check if each image is loaded
@@ -76,6 +88,15 @@ window.addEventListener('scroll', () => {
     }
 });
 
+searchForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    loader.hidden = false;
+    searchTerm = document.getElementById('search-input').value
+    console.log('Search query:', searchTerm);
+    getPhotosBySearchTerm();
+});
+
+
 // Get photos from Unsplash API
 async function getPhotos() {
     try {
@@ -83,7 +104,7 @@ async function getPhotos() {
         photosArray = await response.json();
         displayPhotos();
         if (isInitialLoad) {
-            updateUnsplashApiUrl();
+            updateUnsplashApiUrlCount();
             isInitialLoad = false;
         }
     } catch (error) {
