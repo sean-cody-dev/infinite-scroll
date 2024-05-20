@@ -44,9 +44,36 @@ h1 {
     margin: 10px;
 }
 
+.image-container a {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
 .image-container img {
+    display: block;
+    height: auto;
     width: 100%;
     margin-top: 10px;
+    transition: transform 0.3s ease-in-out; /* Animation time and effect */
+}
+
+.image-container img:hover {
+    transform: scale(1.03); /* Increase the size by 10% */
+}
+
+.overlay-button {
+    display: none;
+    position: absolute;
+    bottom: 10px; /* Position from the bottom of the container */
+    right: 10px; /* Position from the right of the container */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    z-index: 1; /* Position the button in front of the image */
+    font-family: Bebas Neue, sans-serif;
+    font-size: 1rem;
 }
 
 .search-container {

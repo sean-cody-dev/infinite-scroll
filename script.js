@@ -32,12 +32,24 @@ function getPhotosBySearchTerm() {
     getPhotos();
 }
 
+function getPhotosByCreator(creatorSearchTerm) {
+        // clear current photos
+        imageContainer.innerHTML = '';
+
+        // update unsplashApiUrl
+        unsplashApiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${initialImageLoadCount}&username=${creatorSearchTerm}`;
+        
+        getPhotos();
+    
+}
+
 // check if each image is loaded
 function imageLoaded() {
     imagesLoaded++;
     if (imagesLoaded === totalImages) {
         ready = true;
         loader.hidden = true;
+        document.querySelectorAll('.overlay-button').forEach(btn => btn.style.display = 'block');
         // subsequent loads include more photos
         count = 30;
     }
@@ -71,10 +83,26 @@ function displayPhotos() {
             title: photo.alt_description
         });
 
+        const userBtn = document.createElement('button');
+        // MOVE these into setAttributes function
+        setAttributes(userBtn, {
+            class: 'overlay-button',
+            username: photo.user.username
+        });
+        userBtn.innerText = 'More By This Creator';
+
+        userBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            loader.hidden = false;
+            const creator = event.target.getAttribute('username');
+            getPhotosByCreator(creator);
+        });
+
         // Event listener, check when each is finished loading
         img.addEventListener('load', imageLoaded);
-
+        
         // put <img> inside <a>, then put both inside image-container element
+        item.appendChild(userBtn);
         item.appendChild(img);
         imageContainer.appendChild(item);
     });
@@ -92,9 +120,9 @@ searchForm.addEventListener('submit', function(event) {
     event.preventDefault();
     loader.hidden = false;
     searchTerm = document.getElementById('search-input').value
-    console.log('Search query:', searchTerm);
     getPhotosBySearchTerm();
 });
+
 
 
 // Get photos from Unsplash API
